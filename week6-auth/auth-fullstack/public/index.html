@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Fullstack</title>
+</head>
+<body>
+
+    <div>
+        <h1 style="display: flex; justify-content: center; align-items: center;">
+            Signup
+        </h1>
+        <input type="text" id="signup-username" placeholder="username">
+        <input type="text" id="signup-password" placeholder="password">
+        <button onclick="signup()">submit</button>
+    </div>
+
+    <div>
+        <h1 style="display: flex; justify-content: center; align-items: center;">
+            Signin
+        </h1>
+        <input type="text" id="signin-username" placeholder="username">
+        <input type="text" id="signin-password" placeholder="password">
+        <button onclick="signin()">submit</button>
+    </div>
+
+    <div>
+        <h1 style="display: flex; justify-content: center; align-items: center;">
+            get User info
+        </h1>
+        <h1 id="info" style="display: flex; color: red; font-size: large; font-weight: bold; justify-content: center;"></h1>
+        <button onclick="userInfo()">get the info token</button>
+    </div>
+
+    <div>
+        <h1 style="display: flex; justify-content: center; align-items: center;">
+            Logout 
+        </h1>
+        <button onclick="logout()">logout</button>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+    <script>
+        async function signup() {
+            const username = document.getElementById('signup-username').value
+            const password = document.getElementById('signup-password').value
+
+            try {
+                const response = await axios.post('http://localhost:3000/signup', {
+                    username,
+                    password
+                })
+                console.log(response);
+                
+                if(response && response.data) {
+                    alert('signed up successfully')
+                } else {
+                    alert('signed up succesfully but no data returned')
+                }
+            } catch (error) {
+                if(error.response && error.response.data) {
+                    alert("Signed up failed due to:", error.response+error.response.data)
+                } else {
+                    alert('Signup failed due to network issue or no response from the server')
+                }
+            }
+        }
+
+        async function signin() {
+            const username = document.getElementById('signin-username').value
+            const password = document.getElementById('signin-password').value
+            try {
+                const response = await axios.post('http://localhost:3000/signin', {
+                    username,
+                    password
+                })
+                
+                if(response && response.data) {
+                    localStorage.setItem("token", response.data.token)
+                    alert('signed in successfully')
+                } else {
+                    alert('signed in succesfully but no data returned')
+                }
+            } catch (error) {
+                if(error.response && error.response.data) {
+                    alert("Signed in failed due to:", error.response+error.response.data)
+                } else {
+                    alert('Signin failed due to network issue or no response from the server')
+                }
+            }
+
+        }
+
+        async function logout() {
+            localStorage.removeItem("token")
+            alert('Logged out successfully')
+        }
+
+        async function userInfo() {
+            const token = localStorage.getItem("token");
+
+            const response = await axios.get('http://localhost:3000/me', {
+                headers: {
+                    token: token
+                }
+            });
+
+            document.getElementById('info').innerHTML ="Hello " + response.data.username + " password: " + response.data.password
+        }
+    </script>
+
+    
+</body>
+</html>
