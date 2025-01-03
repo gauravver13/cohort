@@ -5,6 +5,8 @@ const mongoose = require('mongoose')
 
 mongoose.connect('mongodb+srv://gauravver13:O4LetzvALvx0fTRB@cluster0.h790h.mongodb.net/todo-gaurav22')
 
+// mongoose.connect(process.env.MONGODB_URI)
+
 const JWT_SECRET = "asdfghjklzxcvbnmqwertyuiop"
 
 const app = express()

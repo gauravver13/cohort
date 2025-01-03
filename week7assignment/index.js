@@ -1,6 +1,7 @@
 const express = require('express')
 const jwt = require('jsonwebtoken')
 const app = express()
+const bcrypt = require('bcrypt');
 
 app.use(express.json())
 const port = 3000
@@ -30,7 +31,7 @@ function auth(req, res, next) {
     }
 }
 
-app.post('/signup', function(req, res) {
+app.post('/signup', async function(req, res) {
     const { username, email, password } = req.body;
 
 
@@ -50,21 +51,24 @@ app.post('/signup', function(req, res) {
         return;
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10)
+
+
     const user = {
         username: username,
         email: email,
-        password
+        password: hashedPassword
     }
 
     users.push(user)
-    console.log(user);
+    console.log(users);
     res.send({
         message: 'User registered successfully'
     })
 
 })
 
-app.post('/signin', function(req, res) {
+app.post('/signin', async function(req, res) {
     const { username, email, password } = req.body;
 
 
@@ -78,12 +82,14 @@ app.post('/signin', function(req, res) {
             return;
         }
 
-        const isPasswordCorrect = (user.password === password)
+
+        const isPasswordCorrect = await bcrypt.compare(password, user.password)
 
         if(!isPasswordCorrect) {
             res.send({
                 message: "Please send the correct password"
             })
+            return;
         }
 
         if(user.token) {
