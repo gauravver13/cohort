@@ -23,7 +23,11 @@ function App() {
   }
 
   function removePost() {
-    
+
+  }
+
+  function updatePost() {
+
   }
 
   return (
@@ -40,3 +44,23 @@ function App() {
 
 export default App
 
+
+
+// function App() {
+//   return <>
+//       <h1>Hi There</h1>
+//       <Greeting name={"gaurav"}/>
+//   </>
+// }
+
+// export default App;
+
+
+// function Greeting(props) {
+//   return <div>
+//     Welcome to the Reactive Rendering jouney {props.name}
+//   </div>
+// }
+
+// Note: 
+// 1. Side Effects.
