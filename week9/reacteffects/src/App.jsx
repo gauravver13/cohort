@@ -9,6 +9,8 @@ function App() {
 
   useEffect(function() {
     // send a backend request to get for this tab.
+
+    // Mounted
     console.log('Send request to backend to get data for tab '+ currentTab);
     // fetch('https://jsonplaceholder.typicode.com/todos/13' + currentTab)  //just for the sake and to get the idea of fetching via examples of 1, 2, 3... and so on
     fetch('https://jsonplaceholder.typicode.com/todos/13')
@@ -17,6 +19,11 @@ function App() {
       setTabData(json);
       setLoading(false);
     });
+
+    // Unmounted
+    return () => {
+      // Cleanup Code, eg: Unsubscribing from an event or clearing timers.
+    }
     
   },[currentTab])
 
