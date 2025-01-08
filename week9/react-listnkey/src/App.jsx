@@ -27,7 +27,8 @@ function App() {
   },
 ]
 
-const todoComponents = todos.map( todo => <Todo
+let id = 1;
+const todoComponents = todos.map( todo => <Todo key={id++}
   title={todo.title} done={todo.done} />)
 
   return (
@@ -38,7 +39,7 @@ const todoComponents = todos.map( todo => <Todo
 }
 
 function Todo( {title, done} ) {
-  return <div>
+  return <div style={{color: "black", backgroundColor: "red", padding: 10, borderRadius: 20, margin: 20 }}> 
     <h4>{title}</h4> - {done ? "Done!": "Not Done"} 
     
   </div>
