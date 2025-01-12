@@ -2,14 +2,14 @@ import { useState } from "react"
 
 
 function App() {
+    const [bulbOn, setBulbOn] = useState(true)      // [state variable, a function]
   return <>
     <h1>Hi There</h1>
-    <LightBulb  />
+    <LightBulb bulbOn={bulbOn} setBulbOn={setBulbOn} />
   </>
 }
 
-function LightBulb() {
-  const [bulbOn, setBulbOn] = useState(true)      // [state variable, a function]
+function LightBulb({bulbOn, setBulbOn}) {
   return <div>
     <BulbState bulbOn={bulbOn} />             
     <ToggleBulbState bulbOn={bulbOn} setBulbOn={setBulbOn} />       
@@ -23,7 +23,7 @@ function BulbState({bulbOn}) {
   </div>
 }
 
-function ToggleBulbState({bulbOn, setBulbOn}) {
+function ToggleBulbState({ setBulbOn}) {
 
   function toggle() {
     setBulbOn(currentState => !currentState)
@@ -38,3 +38,5 @@ function ToggleBulbState({bulbOn, setBulbOn}) {
 export default App; 
 
 // ROLLING UP<-
+// Prop Drilling by the ugly way! managing state becomes very difficult as the application scales big up with lots of components. Anti-Pattern, code unusuable, unmaintainable and hindered readability, Complexity!
+// 
