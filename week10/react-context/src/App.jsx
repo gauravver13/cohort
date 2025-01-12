@@ -2,19 +2,44 @@ import { createContext, useContext, useState } from "react"
 
 const BulbContext = createContext();
 
+// TODO::
+// const ThemeContext = createContext();
+
+// function ThemeProvider({children}) {
+//   const [theme, setTheme] = useState("light");
+
+//   useEffect(() => {
+//     document.querySelector('html').classList.remove("light", "dark")
+//     document.querySelector('html').classList.add(theme)
+//   }, [theme]);
+
+//   return <ThemeContext.Provider value={{
+//           dark: setTheme("dark"),
+//           light: setTheme("light")
+//         }}>
+//             {children}
+//         </ThemeContext.Provider>
+// }
 
 
-function App() {
-    const [bulbOn, setBulbOn] = useState(true)      
 
+// context are in seperate files
+function BulbProvider({children}){
+  const [bulbOn, setBulbOn] = useState(true)  
+  return <BulbContext.Provider value={{
+        bulbOn: bulbOn,
+        setBulbOn: setBulbOn
+      }}>
+          { children }    
+      </BulbContext.Provider>
+}
+
+function App() {    
   return <>
     <h1>Hi There</h1>
-    <BulbContext.Provider value={{
-      bulbOn: bulbOn,
-      setBulbOn: setBulbOn
-    }}>
+      <BulbProvider>
         <Light />
-    </BulbContext.Provider>
+      </BulbProvider>
   </>
 }
 
@@ -45,13 +70,6 @@ function LigthSwitch() {
 
 }
 
-// function ToggleBulbState({ setBulbOn}) {
-
-//   return <div>
-//     <button onClick={toggle}>Toggle the bulb</button>
-//   </div>
-
-// }
 
 export default App; 
 
