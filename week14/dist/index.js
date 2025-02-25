@@ -24,11 +24,11 @@ function sum(a, b) {
     return a + b;
 }
 console.log(sum(1, 2));
-function isLegal(age) {
-    return age >= 18;
-}
-console.log(isLegal(18));
-console.log(isLegal(17));
+// function isLegal(age: number): boolean {
+//     return age >= 18;
+// }
+// console.log(isLegal(18));
+// console.log(isLegal(17));
 function delayedCall(callbackFn) {
     setTimeout(callbackFn, 2000);
 }
@@ -45,3 +45,8 @@ hello();
 //     console.log("World");
 // } can run without typescript because implicit any is allowed in javascript
 // all there here is primitive types
+function isEven(num) {
+    return num % 2 === 0;
+}
+const chkEven = isEven(10);
+console.log(chkEven);
