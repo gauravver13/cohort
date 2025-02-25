@@ -18,15 +18,15 @@ let user: string = `Hello ${person}`;
 
 console.log('USER:', user);
 
-function greet(firstName: string) {
-    console.log(`Hello ${firstName}`);
-}
+// function greet(firstName: string) {
+//     console.log(`Hello ${firstName}`);
+// }
 
 
-greet("Gaurav");
-greet("Harkirat");
-// greet(1);      // error
-greet("1");
+// greet("Gaurav");
+// greet("Harkirat");
+// // greet(1);      // error
+// greet("1");
 
 
 
