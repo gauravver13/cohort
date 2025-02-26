@@ -133,3 +133,16 @@ user5.set('gas', {
 
 
 // user4['ras@we1'].username;
+
+// EXCLUDE::
+type EventType = 'click' | 'scroll' | 'mousemove';
+
+type ExcludeEvent = Exclude<EventType, 'scroll'>; // 'click' | 'mousemove'
+
+const handleEvent = (event: ExcludeEvent) => {
+    console.log('Handling Event::', event);
+}
+
+handleEvent('click');
+// handleEvent('scroll'); // Error---cool
+
