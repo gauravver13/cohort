@@ -28,3 +28,15 @@ async function main() {
 // await pgClient.connect(); // can't write await directly.
 
 main();
+
+
+
+// SQL Injection Engineering: 
+// Through Query, try in websites!! 
+// through which users can inject SQL code into the query.
+// and can do anything with the database.
+// this is a very common attack.
+// so, everyone knows about it.
+// So, we should always prevent it.
+// So, we should always use prepared statements.
+// Prepared statements are the best way to prevent SQL injection.
