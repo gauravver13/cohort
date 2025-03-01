@@ -14,17 +14,31 @@ model User {
   password    String
   age         Int
   city        String
-
-  Todo Todo[]
+  Todo        Todo[]
 }
 
 
+// model Todo {
+//   id    Int   @default(autoincrement())   @id
+//   title         String
+//   description   String
+//   done          Boolean
+//   userId        Int
+//   user          User      @relation(fields: [userId], references: [id])
+//   // time          DateTime    @default(now)
+// }
+
+
+
 model Todo {
-  id    Int   @default(autoincrement())   @id
+  id   Int   @default(autoincrement())   @id
   title         String
   description   String
   done          Boolean
   userId        Int
-  user          User      @relation(fields: [userId], references: [id])
-  // time          DateTime    @default(now)
+  user          User        @relation(fields: [userId], references: [id])
 }
+
+
+
+
