@@ -11,19 +11,18 @@ const client = new PrismaClient();
 // }
 
 
-async function createUser( {
+async function createUser() {
 
    await client.user.create({
         data: {
             username: "gaurav",
-            password: "zxcvbnm",,
+            password: "zxcvbnm",
             age: 21,
             city: "Delhi"
         }
     })
         
-})
-
+}
 
 
 createUser() 
