@@ -6,10 +6,12 @@ import { useEffect, useState } from 'react'
 
 export default function User() {
 const [loading, setLoading] = useState(true)
-const [data, setData] = useState<{id: number; title: string; completed: boolean; } | null>(null)
+const [data, setData] = useState<{id: number; name: string; email: boolean; } | null>(null)
 
   useEffect(() => {
-    axios.get('https://jsonplaceholder.typicode.com/todos/2')
+    // axios.get('http://localhost:3000/api/v1/user/details')
+    // axios.get('/api/v1/user/details')
+    axios.get('api/v1/user/details')
     .then((response) => {
       console.log(`Request went out!!`)
       setData(response.data)
@@ -23,8 +25,8 @@ const [data, setData] = useState<{id: number; title: string; completed: boolean;
       {loading ? <h2>Loading...</h2> : (
         <>
           <h2>{data?.id}</h2>
-          <h2>{data?.title}</h2>
-          <h2>{data?.completed}</h2>
+          <h2>{data?.name}</h2>
+          <h2>{data?.email}</h2>
         </>
       )}
     </div>
