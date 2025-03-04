@@ -1,36 +1,34 @@
-'use client';
-import axios from "axios";
-import { useEffect, useState } from "react";
+'use client'
 
-export default function UserPage() {
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 
-    const [loading, setLoading] = useState(false);
 
-    const [data, setData] = useState<{ id: number; title: string } | null>(null);
+export default function User() {
+const [loading, setLoading] = useState(true)
+const [data, setData] = useState<{id: number; title: string; completed: boolean; } | null>(null)
 
-    useEffect( () => {
-        setLoading(true);
-         axios.get('https://jsonplaceholder.typicode.com/todos/1')
-            .then((response) => {
-                setData(response.data);
-                setLoading(false);
-            })
-    }, []);
-
-    if(loading) {
-        return <h1>Loading...</h1>
-    }
-
+  useEffect(() => {
+    axios.get('https://jsonplaceholder.typicode.com/todos/2')
+    .then((response) => {
+      console.log(`Request went out!!`)
+      setData(response.data)
+      setLoading(false);
+    })
+  }, [])
 
   return (
     <div>
-      <h1>User Page</h1>
-
-    <h2>{data?.id}</h2>
-    <h2>{data?.title}</h2>
-
+      <h1>User</h1>
+      {loading ? <h2>Loading...</h2> : (
+        <>
+          <h2>{data?.id}</h2>
+          <h2>{data?.title}</h2>
+          <h2>{data?.completed}</h2>
+        </>
+      )}
     </div>
-  );
+  )
 }
 
 
