@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import { userMiddleware } from './middleware';
-import mongoose from 'mongoose';
+
 import { User } from './db';
 
 const app = express();
