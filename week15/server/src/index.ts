@@ -4,6 +4,7 @@ import cors from 'cors';
 import { userMiddleware } from './middleware';
 
 import { User } from './db';
+import { JWT_SECRET } from './config';
 
 const app = express();
 app.use(express.json());
@@ -61,7 +62,47 @@ app.post('/api/v1/signup', async (req , res) => {
     
 })
 
+// @ts-ignore
 app.post('/api/v1/signin', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+
+        if(!username || !password) {
+            return res.status(411).json({
+                message: 'Please fill up the username and password correctly- Error in inputs'
+            })
+        }
+
+        const user = await User.findOne({
+            username
+        });
+
+        if(!user) {
+            return res.status(411).json({
+                message: 'Wrong Credentials, Please give the correct credentials - Error in inputs'
+            })
+        }
+
+        if(user.password !== password) {
+            return res.status(411).json({
+                message: 'Wrong Password, Please give the correct password- Error in Inputs'
+            })
+        }
+        
+        // JWT Token:
+        const token = jwt.sign({ username, password }, JWT_SECRET, { expiresIn: '1d'});
+
+        return res.status(200).json({
+            message: 'User Signed-in successfully',
+            token,
+            user: user
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Internal Server error'
+        })
+    }
 
 })
 
