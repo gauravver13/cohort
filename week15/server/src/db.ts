@@ -34,7 +34,7 @@ const ContentSchema = new Schema({
     },
     tags: {
         type: mongoose.Types.ObjectId,
-        ref: 'Tags'
+        ref: 'Tag'
     },
     link: {
         type: Boolean,

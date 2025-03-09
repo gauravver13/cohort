@@ -2,6 +2,8 @@ import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import { userMiddleware } from './middleware';
+import mongoose from 'mongoose';
+import { User } from './db';
 
 const app = express();
 app.use(express.json());
@@ -13,34 +15,49 @@ const validPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$
 
 // @ts-ignore
 app.post('/api/v1/signup', async (req , res) => {
-    const {username, password} = req.body;
-
-    if(!username || !password) {
-        return res.status(411).json({
-            message: "Error in inputs"
+    try {
+            const {username, password} = req.body;
+        
+            if(!username || !password) {
+                return res.status(411).json({
+                    message: "Error in inputs-please fill up the required details"
+                })
+            }
+        
+            if(username.length<3 && username.length>10) {
+                return res.status(411).json({
+                    message: "Error in inputs-username"
+                })
+            }
+        
+            if( !(validPassword.test(password)) ) {
+                return res.status(411).json({
+                    message: "Error in inputs-password"
+                })       
+            }
+        
+            // db check 
+            //db-call and save
+            let user = await User.findOne({ username });
+        
+            if(user) {
+                return res.status(403).json({
+                    message: "User already exist, retry with differnet username!"
+                })
+            }
+        
+            user = await User.create({ username, password });
+        
+            console.log(user);
+            return res.status(200).json({
+                message: "User signed up successfully"
+            })
+    } catch (error) {
+        console.error('Error while signing up!', error);
+        return res.status(500).json({
+            message: 'Internal Server Error, Please try again later..!'
         })
     }
-
-    if(username.length<3 && username.length>10) {
-        return res.status(411).json({
-            message: "Error in inputs"
-        })
-    }
-
-    if( !(validPassword.test(password)) ) {
-        return res.status(411).json({
-            message: "Error in inputs"
-        })       
-    }
-
-    // db check 
-    //db-call and save
-
-    return res.status(200).json({
-        message: ""
-    })
-
-
     
 })
 
