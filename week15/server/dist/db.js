@@ -61,6 +61,7 @@ const ContentSchema = new mongoose_1.Schema({
     },
     title: {
         type: String,
+        required: true,
     },
     tags: {
         type: mongoose_1.default.Types.ObjectId,

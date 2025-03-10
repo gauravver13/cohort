@@ -23,6 +23,7 @@ app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 //EndPoints:
 const validPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
+// TODO: Zod Validation and hash the password;
 // @ts-ignore
 app.post('/api/v1/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -86,7 +87,7 @@ app.post('/api/v1/signin', (req, res) => __awaiter(void 0, void 0, void 0, funct
             });
         }
         // JWT Token:
-        const token = jsonwebtoken_1.default.sign({ username, password }, config_1.JWT_SECRET, { expiresIn: '1d' });
+        const token = jsonwebtoken_1.default.sign({ username, password }, config_1.JWT_SECRET, { expiresIn: '1h' });
         return res.status(200).json({
             message: 'User Signed-in successfully',
             token,
@@ -98,7 +99,34 @@ app.post('/api/v1/signin', (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
     }
 }));
+// @ts-ignore
 app.post('/api/v1/content', middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // {
+    //     "type": "document" | "tweet" | "youtube" | "link",
+    //     "link": "url",
+    //     "title": "Title of doc/video",
+    //     "tags": ["productivity", "politics", ...]
+    // }
+    try {
+        const { type, link, title, tags } = req.body;
+        if (!type || !title) {
+            return res.status(411).json({
+                message: 'Error in inputs: Please give the title and type',
+            });
+        }
+        ;
+        const content = { type, link, title, tags };
+        yield db_1.Content.create(content);
+        console.log("Content Created", content);
+        return res.status(200).json({
+            message: 'Content created successfully'
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: 'Internal Server Error, Please retry',
+        });
+    }
 }));
 app.get('/api/v1/content', middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 }));

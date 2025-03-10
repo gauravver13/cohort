@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import { userMiddleware } from './middleware';
 
-import { User } from './db';
+import { Content, User } from './db';
 import { JWT_SECRET } from './config';
 
 const app = express();
@@ -12,7 +12,7 @@ app.use(cors());
 
 //EndPoints:
 const validPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
-
+// TODO: Zod Validation and hash the password;
 
 // @ts-ignore
 app.post('/api/v1/signup', async (req , res) => {
@@ -90,7 +90,7 @@ app.post('/api/v1/signin', async (req, res) => {
         }
         
         // JWT Token:
-        const token = jwt.sign({ username, password }, JWT_SECRET, { expiresIn: '1d'});
+        const token = jwt.sign({ username, password }, JWT_SECRET, { expiresIn: '1h'});
 
         return res.status(200).json({
             message: 'User Signed-in successfully',
@@ -105,7 +105,40 @@ app.post('/api/v1/signin', async (req, res) => {
 
 })
 
+// @ts-ignore
 app.post('/api/v1/content', userMiddleware, async (req, res) => {
+
+    // {
+    //     "type": "document" | "tweet" | "youtube" | "link",
+    //     "link": "url",
+    //     "title": "Title of doc/video",
+    //     "tags": ["productivity", "politics", ...]
+    // }
+
+    try {
+            const { type, link, title, tags } = req.body;
+        
+            if(!type || !title) {
+                return res.status(411).json({
+                    message: 'Error in inputs: Please give the title and type',
+                })
+            };
+
+            const content = { type, link, title, tags};
+            
+            await Content.create(content);
+
+            console.log("Content Created", content);
+            
+            return res.status(200).json({
+                message: 'Content created successfully'
+            })
+
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Internal Server Error, Please retry',
+        })
+    }
 
 })
 

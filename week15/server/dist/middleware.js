@@ -17,9 +17,11 @@ const config_1 = require("./config");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 // @ts-ignore
 const userMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
     try {
-        const token = (_a = req.headers.token) === null || _a === void 0 ? void 0 : _a.split(' ')[1];
+        const token = req.headers.authorization;
+        // console.log("headers", req.headers);
+        // console.log('token', req.headers.authorization)
+        // console.log('token sent', req.headers.authorization?.split(' ')[1]);
         if (!token) {
             return res.status(411).json({
                 message: 'User not authenticated, Please verify token'
