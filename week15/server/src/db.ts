@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const MONGO_URI = process.env.MONGODB_URI || "connection-failed";
+const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://brainly:BsyFOKfRdrdOXcl4@cluster0.533al.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 mongoose.connect(MONGO_URI)
 .then(() => console.log('MongoDB Connected!'))
