@@ -9,10 +9,11 @@ wss.on("connection", function (socket) {
     // setInterval(() => {
     //     socket.send('Current price of Solana is:: '+ Math.random());
     // }, 3000)
-    // socket.on("message", (e) => {
-    //     console.log('EVENT: ', e);
-    //     console.log('EVENT: ', e.toString());
-    // })
+    socket.on("message", (e) => {
+        console.log('EVENT: ', e);
+        console.log('EVENT: ', e.toString());
+    });
+    socket.send("hello");
     socket.on("message", (e) => {
         console.log('USer send ping');
         if (e.toString() === "ping") {
