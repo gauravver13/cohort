@@ -1,0 +1,3 @@
+[submodule "projects/lets-chat"]
+	path = projects/lets-chat
+	url = https://github.com/gauravver13/lets-chat.git
